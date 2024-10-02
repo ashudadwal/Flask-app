@@ -3,34 +3,28 @@ pipeline {
     stages {
         stage('Clone repository') {
             steps {
-                // Clones the specified Git repository
                 git 'https://github.com/ashudadwal/Flask-app.git'
             }
         }
         stage('Setup Virtual Environment') {
             steps {
-                // Create and activate the virtual environment
-                sh 'python3 -m venv venv'  
-                // Activate the virtual environment in the shell that runs the next commands
-                sh 'source venv/bin/activate'
+                sh 'python3 -m venv venv'  // Create a virtual environment
+                sh 'bash -c ". venv/bin/activate"' // Activate the virtual environment using bash
             }
         }
         stage('Install dependencies') {
             steps {
-                // Install packages in the virtual environment
-                sh 'source venv/bin/activate && pip install -r requirements.txt'
+                sh 'bash -c ". venv/bin/activate && pip install -r requirements.txt"' // Install packages in virtual environment
             }
         }
         stage('Run Tests') {
             steps {
-                // Run tests in the virtual environment
-                sh 'source venv/bin/activate && python -m unittest discover tests'
+                sh 'bash -c ". venv/bin/activate && python -m unittest discover tests"' // Run tests in virtual environment
             }
         }
         stage('Run Flask App') {
             steps {
-                // Run Flask app in the virtual environment
-                sh 'source venv/bin/activate && python app.py'
+                sh 'bash -c ". venv/bin/activate && python app.py"' // Run Flask app in virtual environment
             }
         }
     }
